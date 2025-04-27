@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;   	/* 0: systray in the right corner, >0: systray on left of status text */
@@ -16,7 +16,7 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char col_cyan[]        = "#333333";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -24,7 +24,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "一", "二", "三", "四", "五", "六", "七", "八", "九" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -67,10 +67,15 @@ static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD ("brightnessctl s 10%-")},
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD ("brightnessctl s +10%")},
+	{ MODKEY|ShiftMask,             XK_g,      spawn,          SHCMD ("pactl set-sink-volume @DEFAULT_SINK@ -1% && notify-send -i audio-volume-low 'Volume' \"$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | head -1)\"")},
+	{ MODKEY|ShiftMask,             XK_h,      spawn,          SHCMD ("pactl set-sink-volume @DEFAULT_SINK@ +1% && notify-send -i audio-volume-high 'Volume' \"$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | head -1)\"")},
+	{ MODKEY|ShiftMask,             XK_f,      spawn,          SHCMD ("pactl set-sink-mute @DEFAULT_SINK@ toggle && pactl get-sink-mute @DEFAULT_SINK@ | grep -q yes && notify-send -i audio-volume-muted 'Volume' 'Muted' || notify-send -i audio-volume-high 'Volume' 'Unmuted'")},
+	{ MODKEY|ShiftMask,             XK_b,      spawn,          SHCMD ("brave")},
 	{ MODKEY,            		XK_o, 	   spawn,          SHCMD ("rofi -show drun")},
-	{ MODKEY,            		XK_period,  spawn,          SHCMD ("rofi -show emoji")},
+	{ MODKEY,            		XK_period, spawn,          SHCMD ("rofi -show emoji")},
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD ("exec slock")},
-        { MODKEY,            	        XK_e,      spawn,          SHCMD ("exec nemo")},
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD ("flameshot gui --clipboard")},
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
