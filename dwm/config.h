@@ -10,10 +10,10 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;     /* 0 means no bar */
 static const int topbar             = 0;     /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "Jetbrains Mono NerdFont:size=10", "monospace:size=10" };
+static const char dmenufont[]       = "Jetbrains Mono NerdFont:size=10";
 static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
+static const char col_gray2[]       = "#555555";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#333333";
@@ -24,7 +24,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+static const char *tags[] = { "a", "b", "c", "d", "e", "f", "h", "j", "i" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -32,8 +32,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ NULL, 	 NULL,       NULL,       0,      	 False,           -1 },
 };
 
 /* layout(s) */
@@ -67,6 +66,8 @@ static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ ControlMask|ShiftMask,           XK_q,      spawn,          SHCMD ("/usr/local/bin/powermenu.sh")},
+	{ ControlMask|ShiftMask,        XK_Escape, spawn,          SHCMD ("alacritty -e btop")},
 	{ MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD ("brightnessctl s 10%-")},
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD ("brightnessctl s +10%")},
 	{ MODKEY|ShiftMask,             XK_g,      spawn,          SHCMD ("pactl set-sink-volume @DEFAULT_SINK@ -1% && notify-send -i audio-volume-low 'Volume' \"$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | head -1)\"")},
