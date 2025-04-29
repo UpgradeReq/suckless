@@ -66,7 +66,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ ControlMask|ShiftMask,           XK_q,      spawn,          SHCMD ("/usr/local/bin/powermenu.sh")},
+	{ ControlMask|ShiftMask,        XK_q,      spawn,          SHCMD ("/usr/local/bin/powermenu.sh")},
 	{ ControlMask|ShiftMask,        XK_Escape, spawn,          SHCMD ("alacritty -e btop")},
 	{ MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD ("brightnessctl s 10%-")},
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD ("brightnessctl s +10%")},
@@ -78,6 +78,7 @@ static const Key keys[] = {
 	{ MODKEY,            		XK_period, spawn,          SHCMD ("rofi -show emoji")},
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD ("exec slock")},
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD ("flameshot gui --clipboard")},
+	{ MODKEY,                       XK_e,	   spawn,          SHCMD ("alacritty -e lf")},
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
