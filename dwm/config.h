@@ -10,6 +10,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;     /* 0 means no bar */
 static const int topbar             = 0;     /* 0 means bottom bar */
+static const int refreshrate        = 165;       /* Update rate for drag and resize events, in updates (frames) per second */
 static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=10", "monospace:size10" };
 static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=10";
 static const char col_gray1[]       = "#000000";
@@ -63,21 +64,24 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
 
 #include "movestack.c"
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ ControlMask|ShiftMask,        XK_q,      spawn,          SHCMD ("exec ~/dwm/powermenu.sh")},
-	{ ControlMask|ShiftMask,        XK_Escape, spawn,          SHCMD ("kitty -e btop")},
-	{ MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD ("brightnessctl s 10%-")},
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD ("brightnessctl s +10%")},
+	{ ControlMask|ShiftMask,        XK_q,      spawn,          SHCMD ("exec ~/suckless/dwm/powermenu.sh")},
+	{ ControlMask|ShiftMask,        XK_Escape, spawn,          SHCMD ("alacritty -e btop")},
+	{ MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD ("xbacklight -dec 10")},
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD ("xbacklight -inc 10")},
 	{ MODKEY|ShiftMask,             XK_g,      spawn,          SHCMD ("pactl set-sink-volume @DEFAULT_SINK@ -1% && notify-send -i audio-volume-low 'Volume' \"$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | head -1)\"")},
 	{ MODKEY|ShiftMask,             XK_h,      spawn,          SHCMD ("pactl set-sink-volume @DEFAULT_SINK@ +1% && notify-send -i audio-volume-high 'Volume' \"$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | head -1)\"")},
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          SHCMD ("pactl set-sink-mute @DEFAULT_SINK@ toggle && pactl get-sink-mute @DEFAULT_SINK@ | grep -q yes && notify-send -i audio-volume-muted 'Volume' 'Muted' || notify-send -i audio-volume-high 'Volume' 'Unmuted'")},
 	{ MODKEY|ShiftMask,             XK_b,      spawn,          SHCMD ("xdg-open https://")},
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD ("exec slock")},
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD ("flameshot gui --clipboard")},
 	{ MODKEY,                       XK_e,	   spawn,          SHCMD ("nemo")},
+	{ MODKEY|ControlMask|ShiftMask, XK_9,	   spawn,	   SHCMD("xrandr --output DP-2 --mode 1920x1200 --rate 60") },
+	{ MODKEY|ControlMask|ShiftMask, XK_0,    spawn,          SHCMD("xrandr --output DP-2 --mode 1920x1200 --rate 165") },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
